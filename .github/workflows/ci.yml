@@ -1,0 +1,39 @@
+name: Format and Check the App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Format the code
+        run: |
+          npm run format
+          echo "Running code formatter"
+      
+      - name: Run the app build
+        run: npm run build
+      
+      - name: Run tests
+        run: npm test
+      
+      - name: Start the app
+        run: |
+          npm start
+          echo "App is running"
